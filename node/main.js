@@ -21,6 +21,7 @@ var users={
     "u7":{"name":"Shyam","password":"password7","email":"user7@gmail.com","subjects":["CSE1001","CSE2001","CSE2002"]},
 }
 
+// Dates 
 var py_date=new Date("February 27,2019");
 var dbms_date=new Date("March 21,2019");
 var dsa_date=new Date("February 2,2019");
