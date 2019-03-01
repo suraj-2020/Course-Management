@@ -1,0 +1,78 @@
+doctype html
+html
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    style.
+      * {
+      box-sizing: border-box;
+      }
+      body {
+      font-family: Arial, Helvetica, sans-serif;
+      }
+     
+      .column {
+      float: left;
+      width: 50%;
+      padding: 0 10px;
+      }
+   
+      .row {margin: 0 -5px;}
+   
+      .row:after {
+      content: "";
+      display: table;
+      clear: both;
+      }
+     
+      @media screen and (max-width: 600px) {
+      .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+      }
+      }
+  
+      .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      padding: 16px;
+      text-align: center;
+      background-color: blue;
+      }
+  body
+    h1 
+      center USER INFORMATION (DASHBOARD).
+      a(href="/"+ user +"")
+              button MY ACCOUNT
+    h1
+      center COURSES WE OFFER
+    br
+    .row
+      .column
+        .card
+          h3 CSE1001: PYTHON
+          p Enroll By:27/02/19
+          a(href="/"+ user +"/course/CSE1001")
+            button ENROLL NOW
+      .column
+        .card
+          h3 CSE1002: DBMS
+          p ENROLL BY:12/03/19
+          a(href="/"+ user +"/course/CSE1002")
+            button ENROLL NOW
+    br
+    br
+    br
+    .row
+      .column
+        .card
+          h3 CSE2001: DATA STRUCTURES
+          p Enroll By:02/02/19
+          a(href="/"+ user +"/course/CSE2001")
+            button ENROLL NOW
+      .column
+        .card
+          h3 CSE2002: OPERATING SYSTEM
+          p ENROLL BY:02/03/19
+          a(href="/"+ user +"/course/CSE2002")
+            button ENROLL NOW
+          

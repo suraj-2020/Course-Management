@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+  body(onload='myFunction()')
+    h1(color='blue') Welcome to course #{cid}!
+    h2(color='black') This course  #{status}!
+    #myDIV
+      form(action="/"+uid+"/success" method="post")
+        input(type="hidden" name="uid" value= uid)
+        input(type="hidden" name="cid" value= cid)
+        input(type="submit" value="REGISTER")
+    br
+    a(href="/"+ uid +"/course")
+            button COURSES
+    script.
+      function myFunction() {
+      var x = document.getElementById("myDIV");
+      x.style.display = "none";
+      if(#{signal}!== 1)  // was working in reverse ...? 
+      {
+      x.style.display = "block";
+      }
+      }

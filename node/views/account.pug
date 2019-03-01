@@ -1,0 +1,10 @@
+html
+    body
+        h2 Welcome #{users[uid].name}, you are registered for the following courses : 
+        each val in users[uid].subjects
+            li= val+':'+sub[val].name
+                form(method="post" action="/"+uid+"")
+                    input(type="hidden" name="subjects" value= val)
+                    input(type="hidden" name="uid" value= uid)
+                    input(type="submit" value="UN-ENROLL "+val+"")
+            br
