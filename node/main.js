@@ -98,6 +98,7 @@ app.post('/login',login_val,(req,res)=>{
     else
     res.status(400).send("INCORRECT CREDENTIALS");
 })
+//courses
 app.get('/:u1/course',(req,res)=>{
     res.render("course",{user:req.params.u1});
 })
