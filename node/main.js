@@ -22,10 +22,10 @@ var users={
 }
 
 // Dates 
-var py_date=new Date("February 27,2019");
-var dbms_date=new Date("March 21,2019");
+var py_date=new Date("February 26,2019");
+var dbms_date=new Date("March 27,2019");
 var dsa_date=new Date("February 2,2019");
-var os_date=new Date("March 17,2019");
+var os_date=new Date("March 25,2019");
 var sub={
     "CSE1001":{"studs":["u1","u3","u4","u5","u6","u7"],"Start_date":py_date,"name":"Python"},
     "CSE1002":{"studs":["u1","u2","u3"],"Start_date":dbms_date,"name":"DBMS"},
