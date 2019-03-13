@@ -1,12 +1,12 @@
 var express = require('express');
 var Joi = require('joi')
 var app = express();
-app.use(express.urlencoded({extended :true})); //used to take input from form 
+app.use(express.urlencoded({extended :true})); 
 app.use(express.json());
 app.set('views','./views');
 app.set("view engine","pug");
 app.listen(3000);
-app.get('/home',(req,res)=>{  //  To Load the page it takes get request
+app.get('/home',(req,res)=>{     //  To Load the page it takes get request
     res.render("home");
 })
 
@@ -22,7 +22,7 @@ var users={
 }
 
 // Dates 
-var py_date=new Date("February 26,2019");  //Date written in the format of new Date() to compare later
+var py_date=new Date("February 26,2019");
 var dbms_date=new Date("March 27,2019");
 var dsa_date=new Date("February 2,2019");
 var os_date=new Date("March 25,2019");
@@ -68,71 +68,68 @@ function login_val(req,res,next){
 }
 // MIDDLEWARE ENDS
 
-//using two methods for same url because in the first request we render the page .
-//in the second request we manipulate the data.
-//if there is just a single method in which we render and do operations, then after sending data from that page it would render the page again (when clicking "submit") and then do the computation but that will be actually on a new page which will have no data 
 app.get('/signup',(req,res)=>{
     res.render("signup");
 })
 app.post('/signup',signup_val,(req,res)=>{    //  Form data send as post request.
     
-    let name=req.body.name;     //once a data is entered because "app.use(express.urlencoded({extended :true}));" is used the form data comes in body.
+    let name=req.body.name;
     let email=req.body.email;
     let password=req.body.password;
     let username=req.body.username;
     let subjects=[];
-    users[username]={name,password,email,subjects};   //making a new entry in the dictionary.
+    users[username]={name,password,email,subjects};
+   // users.username=user;
+    //console.log(users);
     res.redirect("/home");  //Create a new identical home page with count created message.
  })
 app.get('/login',(req,res)=>{
-    res.render("login");   //load the pug file
+    res.render("login");
 })
 app.post('/login',login_val,(req,res)=>{
     console.log(users);
     let user=req.body.username;
     let pass=req.body.password;
-    var url='/'+user+"/"+"course"   //Making the url using username so that it remains unique to each user.
-    if(users[user].password == pass) // checking inputted password with saved data
-    res.redirect(url); //redirect is a function of response. redirecting it to next url (course page/dashboard)
+   // console.log();
+    var url='/'+user+"/"+"course"
+    //console.log(users.user);
+    if(users[user].password == pass)
+    res.redirect(url);
     else
     res.status(400).send("INCORRECT CREDENTIALS");
 })
 //courses
 app.get('/:u1/course',(req,res)=>{
-    res.render("course",{user:req.params.u1});  //This is how data is passed to pug file to use there.
-    //url was made in previous function. so using params to get the "variable u1" from the url which will be the user logged in
+    res.render("course",{user:req.params.u1});
 })
 
 app.get('/:u1',(req,res)=>{
-    res.render('account',{uid:req.params.u1,sub:sub,users:users}); // This is the dashboard.
+    res.render('account',{uid:req.params.u1,sub:sub,users:users});
 })
 
 app.post('/:u1',(req,res)=>{
     var subs=req.body.subjects;
     var uid=req.body.uid;
+    // console.log(subs);
+    // console.log(uid);
     u_array=users[uid].subjects;
     s_array=sub[subs].studs;
     var index = u_array.indexOf(subs);
-    var today = new Date();
-    if(today>sub[subs].Start_date)
-    res.render("cannot",{name:sub[subs].name,id:subs});//pushing values where key is the variable which will be used in pug ( by {variabale}) and value is the variable which has the value in server side.
-    else
-    {
     if (index !== -1) u_array.splice(index, 1);
     var index = s_array.indexOf(uid);
     if (index !== -1) s_array.splice(index, 1);
     console.log(users[uid].subjects);
     console.log(sub[subs].studs);
     res.render("withdrawn",{name:sub[subs].name,id:subs});
-    }
 })
 
 app.get('/:u1/course/:id',(req,res)=>{
     var cid=req.params.id;
     var uid=req.params.u1;
     var status;var numbers;
-    var today = new Date();         
+    var today = new Date();
     var start=sub[cid].Start_date;
+    //console.log(start);
     var num=sub[cid].studs.length;
     var signal=0; // By default accepting students. Used to show button in pug file passed as variable
     if(today>start)
@@ -145,13 +142,15 @@ app.get('/:u1/course/:id',(req,res)=>{
     }
     else
     status="will Start Soon, ENROLL NOW!!";
+    //console.log(status);
+    //console.log(cid);
     res.render("details.pug",{cid:cid,status:status,signal:signal,uid:uid});
 })
 
 app.post("/:u1/success",(req,res)=>{
     uid=req.body.uid;
     cid=req.body.cid;
-    if(users[uid].subjects.includes(cid))  //includes check if the element is present in the array or not.
+    if(users[uid].subjects.includes(cid))
     res.render("Enrolled_N",{uid:uid});
     else
     {
