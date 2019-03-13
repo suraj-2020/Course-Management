@@ -106,7 +106,7 @@ app.get('/:u1/course',(req,res)=>{
 app.get('/:u1',(req,res)=>{
     res.render('account',{uid:req.params.u1,sub:sub,users:users}); // This is the dashboard.
 })
-
+//
 app.post('/:u1',(req,res)=>{
     var subs=req.body.subjects;
     var uid=req.body.uid;
