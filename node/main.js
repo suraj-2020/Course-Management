@@ -10,6 +10,7 @@ app.get('/home',(req,res)=>{  //  To Load the page it takes get request
     res.render("home");
 })
 
+active=[];
 // DATABASE
 var users={
     "u1":{"name":"Ram","password":"p1","email":"user1@gmail.com","subjects":["CSE1001","CSE1002"]}, //change this
@@ -92,18 +93,29 @@ app.post('/login',login_val,(req,res)=>{
     let user=req.body.username;
     let pass=req.body.password;
     var url='/'+user+"/"+"course"   //Making the url using username so that it remains unique to each user.
-    if(users[user].password == pass) // checking inputted password with saved data
-    res.redirect(url); //redirect is a function of response. redirecting it to next url (course page/dashboard)
+    if(users[user].password == pass)
+    { // checking inputted password with saved data
+        active[0]=user;
+        active[1]=true;
+        res.redirect(url); 
+    }//redirect is a function of response. redirecting it to next url (course page/dashboard)
     else
     res.status(400).send("INCORRECT CREDENTIALS");
 })
 //courses
 app.get('/:u1/course',(req,res)=>{
+    if(req.params.u1!=active[0] || active.length==0)
+    res.status(400).send("User not logged in");
+    else
     res.render("course",{user:req.params.u1});  //This is how data is passed to pug file to use there.
     //url was made in previous function. so using params to get the "variable u1" from the url which will be the user logged in
 })
 
+//LAST MODIFED
 app.get('/:u1',(req,res)=>{
+    if(req.params.u1!=active[0] || active.length==0)
+    res.status(400).send("User not logged in");
+    else
     res.render('account',{uid:req.params.u1,sub:sub,users:users}); // This is the dashboard.
 })
 //
@@ -114,6 +126,9 @@ app.post('/:u1',(req,res)=>{
     s_array=sub[subs].studs;
     var index = u_array.indexOf(subs);
     var today = new Date();
+    if(req.params.u1!=active[0] || active.length==0)
+    res.status(400).send("User not logged in");
+    else{
     if(today>sub[subs].Start_date)
     res.render("cannot",{name:sub[subs].name,id:subs});//pushing values where key is the variable which will be used in pug ( by {variabale}) and value is the variable which has the value in server side.
     else
@@ -125,9 +140,14 @@ app.post('/:u1',(req,res)=>{
     console.log(sub[subs].studs);
     res.render("withdrawn",{name:sub[subs].name,id:subs});
     }
+    }
 })
 
 app.get('/:u1/course/:id',(req,res)=>{
+    if(req.params.u1!=active[0] || active.length==0)
+    res.status(400).send("User not logged in");
+    else
+    {
     var cid=req.params.id;
     var uid=req.params.u1;
     var status;var numbers;
@@ -145,10 +165,14 @@ app.get('/:u1/course/:id',(req,res)=>{
     }
     else
     status="will Start Soon, ENROLL NOW!!";
-    res.render("details.pug",{cid:cid,status:status,signal:signal,uid:uid});
+    res.render("details.pug",{cid:cid,status:status,signal:signal,uid:uid});}
 })
 
 app.post("/:u1/success",(req,res)=>{
+    if(req.params.u1!=active[0] || active.length==0)
+    res.status(400).send("User not logged in");
+    else
+    {
     uid=req.body.uid;
     cid=req.body.cid;
     if(users[uid].subjects.includes(cid))  //includes check if the element is present in the array or not.
@@ -159,4 +183,5 @@ app.post("/:u1/success",(req,res)=>{
         sub[cid].studs.push(uid);
         res.render("Enrolled_P",{name:sub[cid].name,id:cid});
     }
+}
 })
